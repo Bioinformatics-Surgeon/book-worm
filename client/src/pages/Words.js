@@ -17,6 +17,7 @@ class Words extends React.Component {
             wordObject: {},
         };
 
+        this.handleDelete = this.handleDelete.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
@@ -31,6 +32,7 @@ class Words extends React.Component {
 
     render() {
         const { words, wordObject } = this.state;
+
         return (
             <Container fluid>
                 <Row>
@@ -44,7 +46,9 @@ class Words extends React.Component {
                                     )}
                                 </List>
                             ) : (
-                                <h3>You have not added any words</h3>
+                                <div className="mx-auto">
+                                    <h3>You have not added any words</h3>
+                                </div>
                             )}
                         </Row>
                     </Col>
@@ -84,6 +88,7 @@ class Words extends React.Component {
                                             )
                                         }
                                         onClick={this.handleFormSubmit}
+                                        to={'/words/'}
                                     >
                                         Submit Word
                                     </FormBtn>
@@ -119,22 +124,23 @@ class Words extends React.Component {
         console.log('id', id);
         API.deleteWord(id).then(
             API.getWords().then((res) => {
-                this.setState({
-                    words: res.data,
-                });
+                console.log(res);
+                this.loadWords();
             }),
         );
     }
 
     handleInputChange(event) {
-        const { wordObject } = this.state;
         const { name, value } = event.target;
 
         this.setState((prevState) => {
-            let word = Object.assign({}, prevState[name]); // creating copy of state variable word
-            wordObject[name] = value; // update the name property, assign a new value
-            return { word }; // return new object word object
+            let word = prevState.wordObject; // creating copy of state variable word
+
+            word[name] = value; // update the name property, assign a new value
+            return { wordObject: word }; // return new object word object
         });
+
+        console.log('state', this.state);
     }
 
     // When the form is submitted, use the API.saveWord method to save the word data
@@ -142,6 +148,7 @@ class Words extends React.Component {
     handleFormSubmit(event) {
         event.preventDefault();
         const { wordObject } = this.state;
+        // this.props.history.push('/words/');
 
         if (
             wordObject.name &&
@@ -157,15 +164,27 @@ class Words extends React.Component {
             })
                 .then((res) =>
                     API.getWords().then((res) =>
-                        this.setState({ words: res.data }, this.cancelCourse()),
+                        this.setState(
+                            { words: res.data, wordObject: {} },
+                            this.cancelCourse(),
+                        ),
                     ),
                 )
                 .catch((err) => console.log(err));
         }
     }
 
+    loadWords() {
+        API.getWords().then((res) => {
+            this.setState({
+                words: res.data,
+            });
+        });
+    }
+
     cancelCourse() {
         document.getElementById('create-word-form').reset();
+        this.setState({ wordObject: {} });
     }
 }
 
