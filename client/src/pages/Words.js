@@ -5,7 +5,7 @@ import Jumbotron from '../components/Jumbotron';
 import { Link } from 'react-router-dom';
 import { Col, Row, Container } from '../components/Grid';
 import { List, ListItem } from '../components/List';
-import { Input, FormBtn } from '../components/Form';
+import { Input, FormBtn, Dropdown } from '../components/Form';
 
 class Words extends React.Component {
     // setting initial state
@@ -44,7 +44,7 @@ class Words extends React.Component {
                                     )}
                                 </List>
                             ) : (
-                                <h3>No Results to Display</h3>
+                                <h3>You have not added any words</h3>
                             )}
                         </Row>
                     </Col>
@@ -56,7 +56,7 @@ class Words extends React.Component {
                                     <Input
                                         onChange={this.handleInputChange}
                                         name="name"
-                                        placeholder="Name (required)"
+                                        placeholder="Word (required)"
                                     />
                                     <Input
                                         onChange={this.handleInputChange}
@@ -65,13 +65,14 @@ class Words extends React.Component {
                                     />
                                     <Input
                                         onChange={this.handleInputChange}
+                                        name="origin"
+                                        placeholder="Where did you find the word? (required)"
+                                    />
+                                    <Dropdown
+                                        onChange={this.handleInputChange}
                                         name="partOfSpeech"
                                         placeholder="Part Of Speech (required)"
-                                    />
-                                    <Input
-                                        onChange={this.handleInputChange}
-                                        name="origin"
-                                        placeholder="Where did you find this word (required)"
+                                        required
                                     />
                                     <FormBtn
                                         disabled={

@@ -10,10 +10,25 @@ export function Input(props) {
     );
 }
 
-export function TextArea(props) {
+export function Dropdown(props) {
     return (
         <div className="form-group">
-            <textarea className="form-control" rows="20" {...props} />
+            <label htmlFor="partsOfSpeechDropdown">{props.placeholder}</label>
+            <select
+                className="form-control"
+                id="partsOfSpeechDropdown"
+                {...props}
+            >
+                <option>Select part of speech</option>
+                <option>noun</option>
+                <option>pronoun</option>
+                <option>verb</option>
+                <option>adjective</option>
+                <option>adverb</option>
+                <option>preposition</option>
+                <option>conjunction</option>
+                <option>interjection</option>
+            </select>
         </div>
     );
 }
