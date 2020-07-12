@@ -1,0 +1,51 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": ["airbnb", "plugin:react/recommended"],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-plusplus": 0,
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "object-curly-newline": [
+            "warn",
+            {
+                "ObjectExpression": {
+                    "multiline": true,
+                    "minProperties": 5,
+                    "consistent": true
+                },
+                "ObjectPattern": {
+                    "multiline": true,
+                    "minProperties": 5,
+                    "consistent": true
+                },
+                "ImportDeclaration": { "multiline": true, "minProperties": 5 },
+                "ExportDeclaration": { "multiline": true, "minProperties": 5 }
+            }
+        ],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
+        "react/display-name": ["off", { "ignoreTranspilerName": false }],
+        "react/prop-types": [0],
+        "react/destructuring-assignment": [0],
+        "react/sort-comp": [0],
+        "react/jsx-wrap-multilines": [0],
+        "no-use-before-define": [0],
+        "operator-linebreak": [0],
+        "class-methods-use-this": [0]
+    }
+}
