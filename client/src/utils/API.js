@@ -1,20 +1,28 @@
 import axios from "axios";
 
 export default {
-  // Gets all books
+  // gets all words
   getWords: function () {
     return axios.get("/api/words");
   },
-  // Gets the book with the given id
+
+  // gets word by id
   getWord: function (id) {
     return axios.get("/api/words/" + id);
   },
-  // Deletes the book with the given id
-  deleteWord: function (id) {
-    return axios.delete("/api/words/" + id);
-  },
-  // Saves a book to the database
+
+  // saves word
   saveWord: function (wordData) {
     return axios.post("/api/words", wordData);
+  },
+
+  // updates word by id
+  updateWord: function (id, wordData) {
+    return axios.put("/api/words" + id, wordData);
+  },
+
+  // deletes word by id
+  deleteWord: function (id) {
+    return axios.delete("/api/words/" + id);
   },
 };
