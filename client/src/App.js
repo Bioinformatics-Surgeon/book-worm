@@ -25,28 +25,4 @@ class App extends React.Component {
     }
 }
 
-// function App() {
-//   return (
-//     <Router>
-//       <div>
-//         <Nav />
-//         <Switch>
-//           <Route exact path={["/", "/words"]}>
-//             <Words />
-//           </Route>
-//           {/* <Route exact path={["/", "/words"]}>
-//             <Books />
-//           </Route> */}
-//           {/* <Route exact path="/words/:id">
-//             <Detail />
-//           </Route> */}
-//           {/* <Route>
-//             <NoMatch />
-//           </Route> */}
-//         </Switch>
-//       </div>
-//     </Router>
-//   );
-// }
-
 export default App;

@@ -4,7 +4,7 @@ const db = require('../models');
 const url = process.env.MONGODB_URI || 'mongodb://localhost/book-worm-db';
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const bookSeed = [
+const wordSeed = [
     {
         name: 'cadence',
         definition: 'a modulation or inflection of the voice.',
@@ -70,7 +70,7 @@ const bookSeed = [
 ];
 
 db.Word.deleteMany({})
-    .then(() => db.Word.collection.insertMany(bookSeed))
+    .then(() => db.Word.collection.insertMany(wordSeed))
     .then((data) => {
         console.log(data.result.n + ' records inserted!');
         process.exit(0);
