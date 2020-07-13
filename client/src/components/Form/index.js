@@ -104,17 +104,17 @@ export function UpdateWordForm({
             <Input
                 onChange={handleInputChange}
                 name="name"
-                placeholder={word.name}
+                id="updateNameInput"
             />
             <Input
                 onChange={handleInputChange}
                 name="definition"
-                placeholder={word.definition}
+                id="updateDefinitionInput"
             />
             <Input
                 onChange={handleInputChange}
                 name="origin"
-                placeholder={word.origin}
+                id="updateOriginInput"
             />
             <Dropdown
                 onChange={handleInputChange}
@@ -122,19 +122,7 @@ export function UpdateWordForm({
                 required
                 word={word}
             />
-            <FormBtn
-                disabled={
-                    !(
-                        wordObject.name &&
-                        wordObject.definition &&
-                        wordObject.partOfSpeech &&
-                        wordObject.origin
-                    )
-                }
-                onClick={handleFormUpdate}
-                to={'/words/'}
-                updating="true"
-            >
+            <FormBtn onClick={handleFormUpdate} to={'/words/'} updating="true">
                 Update Word
             </FormBtn>
         </form>

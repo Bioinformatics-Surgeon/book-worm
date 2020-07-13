@@ -107,29 +107,48 @@ class Words extends React.Component {
     handleDelete(id) {
         API.deleteWord(id).then(
             API.getWords().then((res) => {
-                console.log(res);
                 this.loadWords();
             }),
         );
     }
 
     handleUpdate(id) {
-        console.log(id);
         API.getWord(id).then((res) => {
-            // console.log(res.data);
             this.setState((state) => {
-                return { updating: true, currentWord: res.data };
-            }, this.choosePartOfSpeech());
+                return { ...state, updating: true, currentWord: res.data };
+            });
+
+            this.populateInputFields();
         });
-        console.log('State', this.state);
     }
 
-    choosePartOfSpeech() {
+    populateInputFields() {
         setTimeout(() => {
-            let x = document.getElementById('partsOfSpeechDropdown');
-            x.options[
-                x.selectedIndex
-            ].text = this.state.currentWord.partOfSpeech;
+            const {
+                partOfSpeech,
+                name,
+                definition,
+                origin,
+            } = this.state.currentWord;
+
+            let selectElement = document.getElementById(
+                'partsOfSpeechDropdown',
+            );
+            let updateNameInput = document.getElementById('updateNameInput');
+            let updateDefinitionInput = document.getElementById(
+                'updateDefinitionInput',
+            );
+            let updateOriginInput = document.getElementById(
+                'updateOriginInput',
+            );
+
+            selectElement.options[
+                selectElement.selectedIndex
+            ].text = partOfSpeech;
+
+            updateNameInput.value = name;
+            updateDefinitionInput.value = definition;
+            updateOriginInput.value = origin;
         }, 100);
     }
 
@@ -142,8 +161,6 @@ class Words extends React.Component {
             word[name] = value; // update the name property, assign a new value
             return { wordObject: word }; // return new object word object
         });
-
-        console.log('state', this.state);
     }
 
     // When the form is submitted, use the API.saveWord method to save the word data
@@ -151,7 +168,6 @@ class Words extends React.Component {
     handleFormSubmit(event) {
         event.preventDefault();
         const { wordObject } = this.state;
-        // this.props.history.push('/words/');
 
         if (
             wordObject.name &&
@@ -178,23 +194,23 @@ class Words extends React.Component {
     }
 
     handleFormUpdate(event) {
-        console.log('TEST');
         event.preventDefault();
+
         const { wordObject, currentWord } = this.state;
-        // this.props.history.push('/words/');
-        console.log('currentword', wordObject);
+
+        let updatedWord = { ...currentWord, ...wordObject };
 
         if (
-            wordObject.name &&
-            wordObject.definition &&
-            wordObject.partOfSpeech &&
-            wordObject.origin
+            updatedWord.name &&
+            updatedWord.definition &&
+            updatedWord.partOfSpeech &&
+            updatedWord.origin
         ) {
             API.updateWord('/' + currentWord._id, {
-                name: wordObject.name,
-                definition: wordObject.definition,
-                partOfSpeech: wordObject.partOfSpeech,
-                origin: wordObject.origin,
+                name: updatedWord.name,
+                definition: updatedWord.definition,
+                partOfSpeech: updatedWord.partOfSpeech,
+                origin: updatedWord.origin,
             })
                 .then((res) =>
                     API.getWords().then((res) =>
