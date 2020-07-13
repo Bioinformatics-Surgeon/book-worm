@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const db = require('../models');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/book-worm-db');
+const url = process.env.MONGODB_URI || 'mongodb://localhost/book-worm-db';
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const bookSeed = [
     {
@@ -51,17 +52,24 @@ const bookSeed = [
         origin: 'Reading online',
         date: new Date(Date.now()),
     },
+    // {
+    //     name: 'double entendre',
+    //     definition:
+    //         'a word or phrase open to two interpretations, one of which is usually risqué or indecent.',
+    //     partOfSpeech: 'noun',
+    //     origin: 'Conversation with a friend ',
+    //     date: new Date(Date.now()),
+    // },
     {
-        name: 'Double entendre',
-        definition:
-            'a word or phrase open to two interpretations, one of which is usually risqué or indecent.',
-        partOfSpeech: 'noun',
+        name: 'zilch',
+        definition: 'nothing',
+        partOfSpeech: 'pronoun',
         origin: 'Conversation with a friend ',
         date: new Date(Date.now()),
     },
 ];
 
-db.Word.remove({})
+db.Word.deleteMany({})
     .then(() => db.Word.collection.insertMany(bookSeed))
     .then((data) => {
         console.log(data.result.n + ' records inserted!');

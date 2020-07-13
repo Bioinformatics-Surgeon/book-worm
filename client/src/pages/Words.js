@@ -2,10 +2,9 @@ import React from 'react';
 import API from '../utils/API';
 // import { Link } from "react-router-dom";
 import Jumbotron from '../components/Jumbotron';
-import { Link } from 'react-router-dom';
 import { Col, Row, Container } from '../components/Grid';
-import { List, ListItem } from '../components/List';
-import { Input, FormBtn, Dropdown } from '../components/Form';
+import { List, WordCard } from '../components/List';
+import { NewWordForm, UpdateWordForm } from '../components/Form';
 
 class Words extends React.Component {
     // setting initial state
@@ -15,9 +14,12 @@ class Words extends React.Component {
         this.state = {
             words: [],
             wordObject: {},
+            updating: false,
+            currentWord: {},
         };
 
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
@@ -31,7 +33,7 @@ class Words extends React.Component {
     }
 
     render() {
-        const { words, wordObject } = this.state;
+        const { words, currentWord, updating } = this.state;
 
         return (
             <Container fluid>
@@ -41,9 +43,20 @@ class Words extends React.Component {
                         <Row>
                             {words.length ? (
                                 <List>
-                                    {words.map((word) =>
-                                        this.renderWords(word),
-                                    )}
+                                    {words.map((word) => (
+                                        <WordCard
+                                            key={word._id}
+                                            word={word}
+                                            handleDelete={this.handleDelete.bind(
+                                                null,
+                                                word._id,
+                                            )}
+                                            handleUpdate={this.handleUpdate.bind(
+                                                null,
+                                                word._id,
+                                            )}
+                                        />
+                                    ))}
                                 </List>
                             ) : (
                                 <div className="mx-auto">
@@ -53,81 +66,61 @@ class Words extends React.Component {
                         </Row>
                     </Col>
                     <Col size="md-6 sm-12">
-                        <Jumbotron>Add New Word</Jumbotron>
+                        <Jumbotron>
+                            {updating ? currentWord.name : 'Add New Word'}
+                        </Jumbotron>
                         <Row>
                             <Col size="md-12 sm-12">
-                                <form id="create-word-form">
-                                    <Input
-                                        onChange={this.handleInputChange}
-                                        name="name"
-                                        placeholder="Word (required)"
-                                    />
-                                    <Input
-                                        onChange={this.handleInputChange}
-                                        name="definition"
-                                        placeholder="Definition (required)"
-                                    />
-                                    <Input
-                                        onChange={this.handleInputChange}
-                                        name="origin"
-                                        placeholder="Where did you find the word? (required)"
-                                    />
-                                    <Dropdown
-                                        onChange={this.handleInputChange}
-                                        name="partOfSpeech"
-                                        placeholder="Part Of Speech (required)"
-                                        required
-                                    />
-                                    <FormBtn
-                                        disabled={
-                                            !(
-                                                wordObject.name &&
-                                                wordObject.definition &&
-                                                wordObject.partOfSpeech &&
-                                                wordObject.origin
-                                            )
-                                        }
-                                        onClick={this.handleFormSubmit}
-                                        to={'/words/'}
-                                    >
-                                        Submit Word
-                                    </FormBtn>
-                                </form>
+                                {this.renderWordForm()}
                             </Col>
                         </Row>
                     </Col>
                 </Row>
-                <Row></Row>
             </Container>
         );
     }
 
-    // render methods
-    renderWords(word) {
-        return (
-            <ListItem
-                key={word._id}
-                id={word._id}
-                handleDelete={this.handleDelete.bind(null, word._id)}
-            >
-                <Link to={'/words/' + word._id}>
-                    <strong>
-                        {word.name} - {word.definition}
-                    </strong>
-                </Link>
-            </ListItem>
-        );
+    // render functions
+    renderWordForm() {
+        const { updating } = this.state;
+        if (updating) {
+            return (
+                <UpdateWordForm
+                    handleInputChange={this.handleInputChange}
+                    handleFormSubmit={this.handleFormSubmit}
+                    wordObject={this.state.wordObject}
+                />
+            );
+        } else {
+            return (
+                <NewWordForm
+                    handleInputChange={this.handleInputChange}
+                    handleFormSubmit={this.handleFormSubmit}
+                    wordObject={this.state.wordObject}
+                />
+            );
+        }
     }
 
     // helper functions
     handleDelete(id) {
-        console.log('id', id);
         API.deleteWord(id).then(
             API.getWords().then((res) => {
                 console.log(res);
                 this.loadWords();
             }),
         );
+    }
+
+    handleUpdate(id) {
+        console.log(id);
+        API.getWord(id).then((res) => {
+            // console.log(res.data);
+            this.setState((state) => {
+                return { updating: true, currentWord: res.data };
+            });
+        });
+        console.log('State', this.state);
     }
 
     handleInputChange(event) {

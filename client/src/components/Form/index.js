@@ -44,3 +44,96 @@ export function FormBtn(props) {
         </button>
     );
 }
+
+export function NewWordForm({
+    handleInputChange,
+    wordObject,
+    handleFormSubmit,
+}) {
+    return (
+        <form id="create-word-form">
+            <Input
+                onChange={handleInputChange}
+                name="name"
+                placeholder="Word (required)"
+            />
+            <Input
+                onChange={handleInputChange}
+                name="definition"
+                placeholder="Definition (required)"
+            />
+            <Input
+                onChange={handleInputChange}
+                name="origin"
+                placeholder="Where did you find the word? (required)"
+            />
+            <Dropdown
+                onChange={handleInputChange}
+                name="partOfSpeech"
+                placeholder="Part Of Speech (required)"
+                required
+            />
+            <FormBtn
+                disabled={
+                    !(
+                        wordObject.name &&
+                        wordObject.definition &&
+                        wordObject.partOfSpeech &&
+                        wordObject.origin
+                    )
+                }
+                onClick={handleFormSubmit}
+                to={'/words/'}
+            >
+                Submit Word
+            </FormBtn>
+        </form>
+    );
+}
+
+export function UpdateWordForm({
+    handleInputChange,
+    wordObject,
+    handleFormSubmit,
+    word,
+}) {
+    return (
+        <form id="create-word-form">
+            <Input
+                onChange={handleInputChange}
+                name="name"
+                placeholder="Word (required)"
+            />
+            <Input
+                onChange={handleInputChange}
+                name="definition"
+                placeholder="Definition (required)"
+            />
+            <Input
+                onChange={handleInputChange}
+                name="origin"
+                placeholder="Where did you find the word? (required)"
+            />
+            <Dropdown
+                onChange={handleInputChange}
+                name="partOfSpeech"
+                placeholder="Part Of Speech (required)"
+                required
+            />
+            <FormBtn
+                disabled={
+                    !(
+                        wordObject.name &&
+                        wordObject.definition &&
+                        wordObject.partOfSpeech &&
+                        wordObject.origin
+                    )
+                }
+                onClick={handleFormSubmit}
+                to={'/words/'}
+            >
+                Submit Word
+            </FormBtn>
+        </form>
+    );
+}
