@@ -22,6 +22,7 @@ class Words extends React.Component {
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleFormUpdate = this.handleFormUpdate.bind(this);
     }
 
     componentDidMount() {
@@ -82,13 +83,13 @@ class Words extends React.Component {
 
     // render functions
     renderWordForm() {
-        const { updating } = this.state;
-        if (updating) {
+        if (this.state.updating) {
             return (
                 <UpdateWordForm
                     handleInputChange={this.handleInputChange}
-                    handleFormSubmit={this.handleFormSubmit}
+                    handleFormUpdate={this.handleFormUpdate}
                     wordObject={this.state.wordObject}
+                    word={this.state.currentWord}
                 />
             );
         } else {
@@ -118,9 +119,18 @@ class Words extends React.Component {
             // console.log(res.data);
             this.setState((state) => {
                 return { updating: true, currentWord: res.data };
-            });
+            }, this.choosePartOfSpeech());
         });
         console.log('State', this.state);
+    }
+
+    choosePartOfSpeech() {
+        setTimeout(() => {
+            let x = document.getElementById('partsOfSpeechDropdown');
+            x.options[
+                x.selectedIndex
+            ].text = this.state.currentWord.partOfSpeech;
+        }, 100);
     }
 
     handleInputChange(event) {
@@ -159,7 +169,38 @@ class Words extends React.Component {
                     API.getWords().then((res) =>
                         this.setState(
                             { words: res.data, wordObject: {} },
-                            this.cancelCourse(),
+                            this.clearForm(),
+                        ),
+                    ),
+                )
+                .catch((err) => console.log(err));
+        }
+    }
+
+    handleFormUpdate(event) {
+        console.log('TEST');
+        event.preventDefault();
+        const { wordObject, currentWord } = this.state;
+        // this.props.history.push('/words/');
+        console.log('currentword', wordObject);
+
+        if (
+            wordObject.name &&
+            wordObject.definition &&
+            wordObject.partOfSpeech &&
+            wordObject.origin
+        ) {
+            API.updateWord('/' + currentWord._id, {
+                name: wordObject.name,
+                definition: wordObject.definition,
+                partOfSpeech: wordObject.partOfSpeech,
+                origin: wordObject.origin,
+            })
+                .then((res) =>
+                    API.getWords().then((res) =>
+                        this.setState(
+                            { words: res.data, wordObject: {} },
+                            this.clearForm(),
                         ),
                     ),
                 )
@@ -175,7 +216,12 @@ class Words extends React.Component {
         });
     }
 
-    cancelCourse() {
+    clearForm() {
+        if (this.state.updating) {
+            this.setState((state) => {
+                return { updating: false, currentWord: {} };
+            });
+        }
         document.getElementById('create-word-form').reset();
         this.setState({ wordObject: {} });
     }

@@ -19,7 +19,9 @@ export function Dropdown(props) {
                 id="partsOfSpeechDropdown"
                 {...props}
             >
-                <option>Select part of speech</option>
+                <option value="" defaultValue>
+                    Select part of speech
+                </option>
                 <option>noun</option>
                 <option>pronoun</option>
                 <option>verb</option>
@@ -38,7 +40,7 @@ export function FormBtn(props) {
         <button
             {...props}
             style={{ float: 'right', marginBottom: 10 }}
-            className="btn btn-success"
+            className={props.updating ? 'btn btn-info' : 'btn btn-success'}
         >
             {props.children}
         </button>
@@ -94,7 +96,7 @@ export function NewWordForm({
 export function UpdateWordForm({
     handleInputChange,
     wordObject,
-    handleFormSubmit,
+    handleFormUpdate,
     word,
 }) {
     return (
@@ -102,23 +104,23 @@ export function UpdateWordForm({
             <Input
                 onChange={handleInputChange}
                 name="name"
-                placeholder="Word (required)"
+                placeholder={word.name}
             />
             <Input
                 onChange={handleInputChange}
                 name="definition"
-                placeholder="Definition (required)"
+                placeholder={word.definition}
             />
             <Input
                 onChange={handleInputChange}
                 name="origin"
-                placeholder="Where did you find the word? (required)"
+                placeholder={word.origin}
             />
             <Dropdown
                 onChange={handleInputChange}
                 name="partOfSpeech"
-                placeholder="Part Of Speech (required)"
                 required
+                word={word}
             />
             <FormBtn
                 disabled={
@@ -129,10 +131,11 @@ export function UpdateWordForm({
                         wordObject.origin
                     )
                 }
-                onClick={handleFormSubmit}
+                onClick={handleFormUpdate}
                 to={'/words/'}
+                updating="true"
             >
-                Submit Word
+                Update Word
             </FormBtn>
         </form>
     );
