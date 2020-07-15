@@ -105,11 +105,12 @@ class Words extends React.Component {
 
     // helper functions
     handleDelete(id) {
-        API.deleteWord(id).then(
-            API.getWords().then((res) => {
-                this.loadWords();
-            }),
-        );
+        console.log('DISABLED');
+        // API.deleteWord(id).then(
+        //     API.getWords().then((res) => {
+        //         this.loadWords();
+        //     }),
+        // );
     }
 
     handleUpdate(id) {

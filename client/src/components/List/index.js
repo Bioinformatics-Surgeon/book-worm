@@ -42,13 +42,6 @@ export function WordCard({ word, handleDelete, handleUpdate }) {
                 >
                     Update
                 </button>
-                <button
-                    onClick={handleDelete}
-                    data-id={word._id}
-                    className="card-link btn btn-danger"
-                >
-                    Delete
-                </button>
                 <div
                     className="p-2"
                     style={{ position: 'absolute', right: 0, top: 0 }}
@@ -59,6 +52,40 @@ export function WordCard({ word, handleDelete, handleUpdate }) {
         </div>
     );
 }
+
+// export function WordCard({ word, handleDelete, handleUpdate }) {
+//   return (
+//       <div className="card w-100">
+//           <div className="card-body">
+//               <h5 className="card-title">{word.name}</h5>
+//               <h6 className="card-subtitle mb-2 text-muted">
+//                   {word.partOfSpeech}
+//               </h6>
+//               <p className="card-text">{word.definition}</p>
+//               <button
+//                   onClick={handleUpdate}
+//                   data-id={word._id}
+//                   className="card-link btn btn-primary"
+//               >
+//                   Update
+//               </button>
+//               <button
+//                   onClick={handleDelete}
+//                   data-id={word._id}
+//                   className="card-link btn btn-danger"
+//               >
+//                   Delete
+//               </button>
+//               <div
+//                   className="p-2"
+//                   style={{ position: 'absolute', right: 0, top: 0 }}
+//               >
+//                   {getDateString(word.date)}
+//               </div>
+//           </div>
+//       </div>
+//   );
+// }
 
 /* Utils */
 function getDateString(word) {
