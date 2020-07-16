@@ -52,19 +52,55 @@ const wordSeed = [
         origin: 'Reading online',
         date: new Date(Date.now()),
     },
-    // {
-    //     name: 'double entendre',
-    //     definition:
-    //         'a word or phrase open to two interpretations, one of which is usually risqué or indecent.',
-    //     partOfSpeech: 'noun',
-    //     origin: 'Conversation with a friend ',
-    //     date: new Date(Date.now()),
-    // },
+    {
+        name: 'double entendre',
+        definition:
+            'a word or phrase open to two interpretations, one of which is usually risqué or indecent.',
+        partOfSpeech: 'noun',
+        origin: 'Conversation with a friend ',
+        date: new Date(Date.now()),
+    },
     {
         name: 'zilch',
         definition: 'nothing',
         partOfSpeech: 'pronoun',
         origin: 'Conversation with a friend ',
+        date: new Date(Date.now()),
+    },
+    {
+        name: 'precocious',
+        definition:
+            '(of a child) having developed certain abilities or proclivities at an earlier age than usual.',
+        partOfSpeech: 'adjective',
+        origin: 'Read it in a book',
+        date: new Date(Date.now()),
+    },
+    {
+        name: 'ardent',
+        definition: 'enthusiastic or passionate.',
+        partOfSpeech: 'adjective',
+        origin: 'Read it online',
+        date: new Date(Date.now()),
+    },
+    {
+        name: 'conviviality',
+        definition: 'the quality of being friendly and lively; friendliness.',
+        partOfSpeech: 'noun',
+        origin: 'Read online',
+        date: new Date(Date.now()),
+    },
+    {
+        name: 'torpid',
+        definition: 'mentally or physically inactive; lethargic.',
+        partOfSpeech: 'adjective',
+        origin: 'Read it online',
+        date: new Date(Date.now()),
+    },
+    {
+        name: 'myopic',
+        definition: 'nearsighted',
+        partOfSpeech: 'adjective',
+        origin: 'The Gene By Siddhartha Mukherjee',
         date: new Date(Date.now()),
     },
 ];

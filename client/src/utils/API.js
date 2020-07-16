@@ -6,6 +6,10 @@ export default {
         return axios.get('/api/words');
     },
 
+    getOrigins: function () {
+        return axios.get('/api/words/origins');
+    },
+
     // GETS word by id
     getWord: function (id) {
         return axios.get('/api/words/' + id);

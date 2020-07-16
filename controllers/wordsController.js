@@ -9,6 +9,15 @@ module.exports = {
             .catch((err) => res.status(422).json(err));
     },
 
+    findAllOrigins: function (req, res) {
+        console.log('here');
+        db.Word.find(req.query);
+        console
+            .log('req', req)
+            .then((dbModel) => console.log('here'))
+            .catch((err) => res.status(422).json(err));
+    },
+
     findById: function (req, res) {
         db.Word.findById(req.params.id)
             .then((dbModel) => res.json(dbModel))
